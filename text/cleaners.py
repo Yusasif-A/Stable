@@ -2,7 +2,12 @@ import re
 
 from text.english import english_to_ipa2
 from text.mandarin import chinese_to_cnm3
-from text.japanese import japanese_to_ipa2
+
+try:
+    from text.japanese import japanese_to_ipa2
+except Exception:
+    def japanese_to_ipa2(text):
+        raise RuntimeError("pyopenjtalk is not available; Japanese is not supported in this environment.")
 
 language_module_map = {"PAD":0, "ZH": 1, "EN": 2, "JA": 3}
 

@@ -63,7 +63,7 @@ def load_and_resample_audio(audio_path, target_sr, device='cpu') -> Tensor:
         print(str(e))
         return None
     
-    y.to(device)
+    y = y.to(device)
     # Convert to mono
     if y.size(0) > 1:
         y = y[0, :].unsqueeze(0) # shape: [2, time] -> [time] -> [1, time]

@@ -26,18 +26,23 @@ def continue_training(checkpoint_path, model: DDP, optimizer: optim.Optimizer) -
         max_epoch = max(common_epochs)
         model_path = os.path.join(checkpoint_path, model_dict[max_epoch])
         optimizer_path = os.path.join(checkpoint_path, optimizer_dict[max_epoch])
-        
+
         # load model and optimizer
         model.module.load_state_dict(torch.load(model_path, map_location='cpu'))
         optimizer.load_state_dict(torch.load(optimizer_path, map_location='cpu'))
-        
+
         print(f'resume model and optimizer from {max_epoch} epoch')
         return max_epoch + 1
-    
+
     else:
-        # load pretrained checkpoint
+        # load pretrained checkpoint if available, skip if architecture is incompatible
         if model_dict:
             model_path = os.path.join(checkpoint_path, model_dict[max(model_dict.keys())])
-            model.module.load_state_dict(torch.load(model_path, map_location='cpu'))
-            
+            try:
+                model.module.load_state_dict(torch.load(model_path, map_location='cpu'))
+                print(f'loaded pretrained checkpoint from {model_path}')
+            except RuntimeError as e:
+                print(f'[WARNING] Skipping incompatible checkpoint {model_path}: {e}')
+                print('[INFO] Starting training from scratch.')
+
         return 0

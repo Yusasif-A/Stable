@@ -31,15 +31,15 @@ class ModelConfig:
             
 @dataclass
 class TrainConfig:
-    train_dataset_path: str = 'filelists/filelist.json'
-    test_dataset_path: str = 'filelists/filelist.json' # not used
+    train_dataset_path: str = 'filelists/yoruba_filelist.json'
+    test_dataset_path: str = 'filelists/yoruba_filelist.json' # not used
     batch_size: int = 32
     learning_rate: float = 1e-4
-    num_epochs: int = 10000
+    num_epochs: int = 1000
     model_save_path: str = './checkpoints'
     log_dir: str = './runs'
     log_interval: int = 16
-    save_interval: int = 1
+    save_interval: int = 10
     warmup_steps: int = 200
     
 @dataclass

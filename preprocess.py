@@ -12,22 +12,28 @@ from utils.audio import LogMelSpectrogram, load_and_resample_audio
 
 from text.mandarin import chinese_to_cnm3
 from text.english import english_to_ipa2
-from text.japanese import japanese_to_ipa2
+from text.yoruba import yoruba_to_ipa
+
+try:
+    from text.japanese import japanese_to_ipa2
+except Exception:
+    japanese_to_ipa2 = None
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 @dataclass
 class DataConfig:
-    input_filelist_path = './filelists/filelist.txt' # a filelist contains 'audiopath | text'
-    output_filelist_path = './filelists/filelist.json' # path to save filelist
+    input_filelist_path = './filelists/yoruba_filelist.txt' # a filelist contains 'audiopath | text'
+    output_filelist_path = './filelists/yoruba_filelist.json' # path to save filelist
     output_feature_path = './stableTTS_datasets' # path to save resampled audios and mel features
-    language = 'english' # chinese, japanese or english
+    language = 'yoruba' # chinese, japanese, english or yoruba
     resample = False # waveform is not used in training, so save resampled results is not necessary.
 
 g2p_mapping = {
     'chinese': chinese_to_cnm3,
     'japanese': japanese_to_ipa2,
     'english': english_to_ipa2,
+    'yoruba': yoruba_to_ipa,
 }
             
 data_config = DataConfig()
