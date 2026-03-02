@@ -55,7 +55,7 @@ def save_eval_audio(model_module, vocoder, mel_extractor, mel_config, epoch, dev
         ref_mel = mel_extractor(ref)
 
         model_module.eval()
-        mel_out = model_module.synthesise(text, text_length, step=10, temperature=1.0,
+        mel_out = model_module.synthesise(text, text_length, n_timesteps=10, temperature=1.0,
                                           ref_mel=ref_mel, length_scale=1.0,
                                           solver='euler', cfg=3.0)['decoder_outputs']
         audio = vocoder(mel_out.to(device)).cpu()

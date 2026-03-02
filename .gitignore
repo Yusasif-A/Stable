@@ -160,7 +160,6 @@ cython_debug/
 #.idea/
 
 # Training artifacts
-checkpoints/*.pt
 stableTTS_datasets/
 wandb/
 runs/
